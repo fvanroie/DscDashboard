@@ -11,13 +11,21 @@ It is a GUI that uses the reporting data from the DSC Pull Server framework and 
 - Windows Server 2019 Insider Preview
 - SQL Server
 
-You need to have a DSC Pull Service from WMF 5.1 that is [configured to use a SQL Server](https://blogs.technet.microsoft.com/askpfeplat/2018/07/09/configuring-a-powershell-dsc-web-pull-server-to-use-sql-database/)
-backend. The integrated database is not supported. This means you need to have at least Windows 2016 SAC 1803 or Windows 2019 Insider Preview.
+You need to have a DSC Pull Service from WMF 5.1 that is [configured to use a SQL Server]
+(https://blogs.technet.microsoft.com/askpfeplat/2018/07/09/configuring-a-powershell-dsc-web-pull-server-to-use-sql-database/)
+backend. The integrated MDB or ESENT databases are not supported by this module.
+
+> Note: SQL Server support will not be added to previous versions of WMF 5.1 (or earlier)
+> and will only be available on Windows Server versions greater than or equal to 17090.
+
+This means you need to have at least Windows 2016 SAC 1803 or Windows 2019 Insider Preview.
 
 - Universal Dashboard Module
 
-The dashboard is created using the Universal Dashboard module for PowerShell. You need to have this module installed on the server hosting the dashboard.
-You can use either the Community or the Payed edition, depending on your usage and license requirement.
+The dashboard is created using the [Universal Dashboard](https://ironmansoftware.com/universal-dashboard) module for PowerShell.
+You need to have this module installed on the server hosting the dashboard. You can use either the
+[Community](https://www.powershellgallery.com/packages/UniversalDashboard.Community/) or the
+[Full edition](https://www.powershellgallery.com/packages/UniversalDashboard/), depending on your usage and license requirement.
 
 - IIS with websockets enabled
 
