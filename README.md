@@ -1,6 +1,6 @@
 ![Dashboard](images/dashboard.png)
 
-# DSCDashboard
+# DscDashboard
 
 
 ## Description
@@ -99,14 +99,14 @@ You can use another directory if the Default Website is already used to host a s
 
 Copy:
 - The entire contents of C:\Program Files\WindowsPowershell\Modules\UniversalDashboard
-  to C:\initpub\wwwroot\
+    to C:\initpub\wwwroot\
 - The file dashboard.ps1 from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
-  to C:\initpub\wwwroot\
+    to C:\initpub\wwwroot\
 
 
 ## How to use
 
-Open a browser on the server and browse to http://localhost to test the dashboard.
+Open a browser on the server and browse to http://localhost to test the dashboard:
 
 ![Nodes](images/nodes.png)
 

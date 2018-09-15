@@ -107,7 +107,6 @@ Function Get-DscDashboardNodeResources
             # Return Custom Object
             $data += [PSCustomObject]@{
 
-
                 ConfigurationName = $resource.ConfigurationName
                 Duration          = '{0} s.' -f $resource.DurationInSeconds
                 InDesiredState    = $resource.InDesiredState
