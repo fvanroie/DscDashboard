@@ -43,7 +43,7 @@ Import-Module .\DscDashboard.psm1
 ### How to use
 
 Explain how to use this module
-
+ 
 ```powershell
 New-FunctionName -Parameter1 'C:\Packages' -Parameter2 'C:\NewPackages'
 ```
