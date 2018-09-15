@@ -63,4 +63,3 @@ Get-Function2 -Parameter1 'SomePackageName' -Parameter2 'C:\some\path_to_folder_
    Created by: fvanroie, NetwiZe.be
    Created Date: September 15 2018
 ```
-
