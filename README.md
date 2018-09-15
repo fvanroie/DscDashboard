@@ -10,7 +10,7 @@ reporting data from the DSC Pull Server framework and makes it easily available 
 
 ## Pages
 
-<img src="images/nodes.png" alt="Nodes" width="280"><img src="images/nodedetail.png" alt="Node Detail OK" width="280"><img src="images/nodedetail2.png" alt="Node Detail with Error" width="280">
+<img src="images/nodes.png" alt="Nodes" width="440">   &nbsp;  <img src="images/nodedetail.png" alt="Node Detail OK" width="440">
 
 ## Prerequisites
 
