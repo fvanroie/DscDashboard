@@ -1,0 +1,24 @@
+{
+    // No Minimap
+    "editor.minimap.enabled": false,
+    // TABS not spaces!
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.autoClosingBrackets": true,
+    // PowerShell formatting OBTS or Allman
+    "powershell.codeFormatting.preset": "OBTS",
+    "powershell.codeFormatting.openBraceOnSameLine": true,
+    "powershell.codeFormatting.newLineAfterCloseBrace": false,
+    "powershell.enableProfileLoading": true,
+    "powershell.scriptAnalysis.enable": true,
+    "powershell.startAutomatically": true,
+    "powershell.integratedConsole.focusConsoleOnExecute": false,
+    // When enabled, will trim trailing whitespace when you save a file.
+    "[powershell]": {
+        "files.trimTrailingWhitespace": true
+    },
+    "files.defaultLanguage": "powershell",
+    "workbench.colorTheme": "Monokai-Contrast"
+}
