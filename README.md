@@ -7,11 +7,11 @@ It is a GUI that uses the reporting data from the DSC Pull Server framework and 
 
 # Prerequisites
 
-    - Windows Server 2016 Core Semi-Annual Channel release 1803
-    - Windows Server 2019 Insider Preview
-    - SQL Server
+- Windows Server 2016 Core Semi-Annual Channel release 1803
+- Windows Server 2019 Insider Preview
+- SQL Server
 
-You need to have a DSC Pull Server that is configured with a SQL Server backend. The integrated database is not supported.
+You need to have a DSC Pull Server that is configured to use a SQL Server backend. The integrated database is not supported.
 This means you need to have at least Windows 2016 SAC 1803 or Windows 2019 Insider Preview.
 
     - Universal Dashboard Module
@@ -21,8 +21,8 @@ You can use either the Community or the Payed edition, depending on your usage a
 
     - IIS with websockets enabled
 
-The dashboard can run directly from PowerShell, but it is recommended to host the site in IIS, since it is already a prerequisite of the DSCService.
-Note that websockets needs to be installed and enabled in IIS for the dashboard to work properly.
+The dashboard can run directly from PowerShell, but it is recommended to host the site in IIS. The DSCService already has a dependancy on IIS.
+Also, Websockets needs to be installed and enabled in IIS for the dashboard to work properly.
 
 ## Synopsis
 
