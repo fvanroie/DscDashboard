@@ -66,43 +66,34 @@ Reboot the server to make the changes to the environment variables active.
 
 ### Install the modules
 
-Install the DscDashboard and UniversalDashboard modules in the folder C:\Program Files\WindowsPowershell\Modules
-They need to be accessible by the dashboard.ps1 script that runs in IIS:
+Install the DscDashboard and UniversalDashboard modules in the folder C:\Program Files\WindowsPowershell\Modules:
 
 ```powershell
-PS> dir 'C:\Program Files\WindowsPowerShell\Modules\*Dashboard*'
+PS> Get-Module -Name "*Dashboard*" -ListAvailable
 
     Directory: C:\Program Files\WindowsPowerShell\Modules
 
-Mode                LastWriteTime         Length Name
-----                -------------         ------ ----
-d-----        9/15/2018   5:40 PM                DscDashboard
-d-----        9/11/2018  10:01 PM                UniversalDashboard.Community
+ModuleType Version    Name                                ExportedCommands
+---------- -------    ----                                ----------------
+Script     0.0.1      DscDashboard                        {New-DscDashboardCustomHeader...}
+Script     2.0.1      UniversalDashboard.Community        {New-UDChart, New-UDDashboard...}
 ```
+
+They need to be accessible by the dashboard.ps1 script that runs in IIS.
 
 ### Copy files to wwwroot
 
-In this example we will use the IIS Default Website location to host the dashboard instead of the default placeholder website.
+We will use the IIS Default Website location to host the dashboard instead of the default placeholder website.
 You can use another directory if the Default Website is already used to host a site.
 
-- Copy the contents of to C:\initpub\wwwroot\
-- Copy the file from DscDashboard\dashboard.ps1 to C:\initpub\wwwroot\
+Copy:
+- The entire contents of C:\Program Files\WindowsPowershell\Modules\UniversalDashboard to C:\initpub\wwwroot\
+- The file dashboard.ps1 from C:\Program Files\WindowsPowershell\Modules\DscDashboard\ to C:\initpub\wwwroot\
 
 ### How to use
 
-Explain how to use this module
+Open a browser on the server and browse to http://localhost to test the dashboard.
 
-```powershell
-New-FunctionName -Parameter1 'C:\Packages' -Parameter2 'C:\NewPackages'
-```
-
-### Using function 2 in TemplatePowerShellModule
-
-Description on using function 1 in TemplatePowerShellModule
-
-```powershell
-Get-Function2 -Parameter1 'SomePackageName' -Parameter2 'C:\some\path_to_folder_containing_packages'
-```
 
 ## Notes
 
