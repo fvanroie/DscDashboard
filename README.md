@@ -48,7 +48,7 @@ Explain how to use this module
 New-FunctionName -Parameter1 'C:\Packages' -Parameter2 'C:\NewPackages'
 ```
 
-### Using function in TemplatePowerShellModule
+### Using function 2 in TemplatePowerShellModule
 
 Description on using function 1 in TemplatePowerShellModule
 
