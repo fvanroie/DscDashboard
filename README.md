@@ -1,5 +1,7 @@
 # DSCDashboard
 
+![Dashboard](https://fvanroie.github.com/fvanroie/DscDashboard/images/dashboard.png)
+
 ## Description
 
 This is a PowerShell module and a dashboard that can be installed on a DSC Pull Server to display
@@ -60,8 +62,8 @@ Universal Dashboard [needs](https://adamdriscoll.gitbooks.io/powershell-universa
 the .Net Core Hosting package to run is IIS:
 - [.NET Core 2.1 Runtime & Hosting Bundle for Windows (v2.1.4)](https://www.microsoft.com/net/download/dotnet-core/2.1)
 
-Install the dotnet-hosting-2.1.4-win.exe package after you have installed IIS, otherwise some paths will get
-overwritten by the IIS installation and you need to re-install the .Net Core Hosting package.
+> Install the dotnet-hosting-2.1.4-win.exe package after you have installed IIS, otherwise some paths
+> will get overwritten by the IIS installation and you need to re-install the .Net Core Hosting package.
 
 Reboot the server to make the changes to the environment variables active.
 
@@ -88,8 +90,10 @@ We will use the IIS Default Website location to host the dashboard instead of th
 You can use another directory if the Default Website is already used to host a site.
 
 Copy:
-- The entire contents of C:\Program Files\WindowsPowershell\Modules\UniversalDashboard to C:\initpub\wwwroot\
-- The file dashboard.ps1 from C:\Program Files\WindowsPowershell\Modules\DscDashboard\ to C:\initpub\wwwroot\
+- The entire contents of C:\Program Files\WindowsPowershell\Modules\UniversalDashboard
+  to C:\initpub\wwwroot\
+- The file dashboard.ps1 from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
+  to C:\initpub\wwwroot\
 
 ### How to use
 
