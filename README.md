@@ -10,9 +10,9 @@ reporting data from the DSC Pull Server framework and makes it easily available 
 
 ## Pages
 
-![Nodes](images/nodes.png | width=100)
-![Node1](images/node.png | width=100)
-![Node2](images/node2.png | width=100)
+<img src="images/nodes.png" alt="Nodes" width="100">
+<img src="images/node.png" alt="Node OK" width="100">
+<img src="images/node2.png" alt="Node Error" width="100">
 
 ## Prerequisites
 
