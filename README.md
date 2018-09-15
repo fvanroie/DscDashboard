@@ -37,7 +37,7 @@ A PowerShell Module to
 To use this module, you will first need to download/clone the repository and import the module:
 
 ```powershell
-Import-Module .\TemplatePowerShellModule.psm1
+Import-Module .\DscDashboard.psm1
 ```
 
 ### How to use
