@@ -54,13 +54,14 @@ Display Name                                            Name                    
             [X] WebSocket Protocol                      Web-WebSockets                 Installed
 ```
 
-### Install .Net CHost Hosting 2.1
+### Install .Net Core Hosting Bundle
 
-Universal Dashboard need the .Net Core Hosting package to run is IIS.
-- dotnet-hosting-2.1.4-win
+Universal Dashboard [needs](https://adamdriscoll.gitbooks.io/powershell-universal-dashboard/content/running-dashboards/iis.html)
+the .Net Core Hosting package to run is IIS:
+- [.NET Core 2.1 Runtime & Hosting Bundle for Windows (v2.1.4)](https://www.microsoft.com/net/download/dotnet-core/2.1)
 
-Install the package after you have installed IIS, otherwise some paths will get overwritten by the IIS installation
-and you need to re-install the .Net Core Hosting package.
+Install the dotnet-hosting-2.1.4-win.exe package after you have installed IIS, otherwise some paths will get
+overwritten by the IIS installation and you need to re-install the .Net Core Hosting package.
 
 Reboot the server to make the changes to the environment variables active.
 
