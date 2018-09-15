@@ -1,6 +1,6 @@
 # DSCDashboard
 
-![Dashboard](https://fvanroie.github.com/fvanroie/DscDashboard/images/dashboard.png)
+![Dashboard](images/dashboard.png)
 
 ## Description
 
