@@ -42,7 +42,7 @@ Function Get-DscDashboardNodeResources
     $data = @()
 
     # Run the SQL query
-    Get-ODBCData -Query $query -Dsn "DscDashboard" -parameter ([System.Data.Odbc.OdbcParameter]::new($null, $agentid)) |
+    Get-ODBCData -Query $query -ConnectionString $env:DSC_CONNECTIONSTRING -SqlParameter ([System.Data.Odbc.OdbcParameter]::new($null, $agentid)) |
 
     # Format the result
     ForEach-Object {

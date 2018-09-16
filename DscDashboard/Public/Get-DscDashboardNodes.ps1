@@ -37,7 +37,8 @@ Function Get-DscDashboardNodes
     $data = @()
 
     # Run the SQL query
-    Get-ODBCData -Query $query -Dsn "DscDashboard" |
+        # Run the SQL query
+        Get-ODBCData -Query $query -ConnectionString $env:DSC_CONNECTIONSTRING  |
 
     # Format the SQL results
     ForEach-Object {

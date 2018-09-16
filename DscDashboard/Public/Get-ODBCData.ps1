@@ -28,24 +28,35 @@ Function Get-ODBCData
     Param(
 
         [String]$Query = $(Throw 'Query is required.'),
-        [String]$Dsn = $(Throw 'DsnName is required.'),
+        [String]$ConnectionString = $(Throw 'ConnectionString is required.'),
 
         [AllowEmptyCollection()]
-        [System.Data.Odbc.OdbcParameter[]]$Parameter
+        [System.Data.Odbc.OdbcParameter[]]$SqlParameter
 
     )
 
-    $conn = New-Object System.Data.Odbc.OdbcConnection
-    $conn.ConnectionString = "DSN=$Dsn;"
-    $conn.open()
+    $ConnectionString = $env:DSC_CONNECTIONSTRING
+    if (!$ConnectionString) {
+        $ConnectionString = 'DSN=DscDashboard'
+    }
 
-    if ($PSBoundParameters.ContainsKey('Parameter'))
+    $conn = New-Object System.Data.Odbc.OdbcConnection
+    $conn.ConnectionString = $ConnectionString #"DSN=$Dsn;"
+    try {
+        $conn.open()
+    }
+    catch {
+        Throw $_
+    }
+
+    if ($PSBoundParameters.ContainsKey('SqlParameter'))
     {
 
+        # SQL Statement with parameters
         $cmd = $conn.CreateCommand();
         $cmd.CommandText = $Query
 
-        $Parameter | ForEach-Object {
+        $SqlParameter | ForEach-Object {
             $cmd.Parameters.Add($_) | Out-Null
         }
 
@@ -53,6 +64,7 @@ Function Get-ODBCData
     else
     {
 
+        # SQL Statement without parameters
         $cmd = New-object System.Data.Odbc.OdbcCommand($Query, $conn)
 
     }
