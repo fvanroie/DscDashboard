@@ -35,17 +35,17 @@ This means you need to have at least Windows 2016 SAC 1803 or Windows 2019 Insid
 The dashboard is created using the [Universal Dashboard](https://ironmansoftware.com/universal-dashboard) module for PowerShell.
 You need to have this module installed on the server hosting the dashboard. You can use either the
 [Community](https://www.powershellgallery.com/packages/UniversalDashboard.Community/) or the
-[Full edition](https://www.powershellgallery.com/packages/UniversalDashboard/), depending on your usage and license requirement.
+[Full edition](https://www.powershellgallery.com/packages/UniversalDashboard/) depending on your usage and license requirements.
 
 
-## Optional
+### Optional
 
-### IIS with websockets enabled
+#### IIS with websockets enabled
 
 The Universal Dashboard can run directly from PowerShell but it is recommended to host the site in IIS. The DSCService already has a dependancy on IIS.
 Also, Websockets needs to be installed and enabled in IIS for the dashboard to work properly.
 
-Alternatively there is a Docker container that has all the components installed to connect to a SQL Server hosting the DSC database.
+Alternatively there is a Docker container that has all the components installed to run the DscDashboard and connect to a SQL Server hosting the DSC database.
 
 ## Synopsis
 
