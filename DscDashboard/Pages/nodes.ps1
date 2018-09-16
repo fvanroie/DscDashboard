@@ -7,7 +7,7 @@ New-UDPage -Name "Nodes" -Icon desktop -Content {
 
                 $Cache:AllNodes | Out-UDGridData
 
-        } -DefaultSortColumn NodeName -DateTimeFormat "LLLLL" -AutoRefresh #-ServerSideProcessing
+        } -DefaultSortColumn NodeName -DateTimeFormat "LLLLL" -AutoRefresh -RefreshInterval (10*60) #-ServerSideProcessing
 
     } # Card
 
