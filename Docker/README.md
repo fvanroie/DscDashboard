@@ -33,15 +33,15 @@ If the build succeeded, you will see:
 
 Run the image, binding associated ports and SQL Server connection string:
 
-    docker run -p 80:80 --env DSC_CONNECTIONSTRING='SERVER=<hostname>; Uid=<user>; Pwd=<password>' dscdashboard
+    docker run -p 80:80 --env DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' dscdashboard
 
-Change the `<hostname>`, `<readuser>` and `<password>` in the `DSC_CONNECTIONSTRING` to the appropriate values to
+Change the `<hostname>`, `<readuser>` and `<password>` in the `DSC_SQL` to the appropriate values to
 connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
 for testing purposes.
 
 The DSC Dashboard module only uses SELECT queries and does not modify the database.
 
-You can also set the `DSC_CONNECTIONSTRING` in the Dockerfile and rebuild the image.
+You can also set the `DSC_SQL` in the Dockerfile and rebuild the image.
 
 ## Services
 

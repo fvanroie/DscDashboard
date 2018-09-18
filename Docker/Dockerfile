@@ -44,7 +44,7 @@ RUN apt-get update \
 COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
 
 # Set Environment Variables
-ENV DSC_SQL "DSN=DscDashboard; Server={0}; UID={1}; PWD={2}"
+ENV DSC_SQL "Server={0}; UID={1}; PWD={2}"
 
 # Create ODBC DSN
 RUN echo ' \
