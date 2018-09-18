@@ -55,7 +55,7 @@ RUN echo ' \
         Encrypt  = yes \
     ' > /etc/odbc.ini \
     \
-    && echo "Download UniversalDashboard.Community from the PowerShell Gallery and check the 2 modules can be found"
+    && echo "Download UniversalDashboard.Community from the PowerShell Gallery and check the 2 modules can be found" \
     && pwsh -c ' \
         $ProgressPreference = "SilentlyContinue"; \
         \
@@ -66,7 +66,7 @@ RUN echo ' \
             Throw "Required Modules not available!" \
         } \
     ' \
-    && echo "Create a link to the dashboard in the root diretory"
+    && echo "Create a link to the dashboard in the root diretory" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
