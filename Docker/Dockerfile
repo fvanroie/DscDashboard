@@ -36,7 +36,7 @@ RUN apt-get update \
     && apt-get dist-upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && pwsh -c '$ProgressPreference = SilentlyContinue; Find-Module UniversalDashboard.Community -Min 2.0.1 | Save-Module /usr/local/share/powershell/Modules -AcceptLicense -v'
+    && pwsh -c '$ProgressPreference = "SilentlyContinue"; Find-Module "UniversalDashboard.Community" -Min 2.0.1 | Save-Module /usr/local/share/powershell/Modules -AcceptLicense -Verbose'
 
 # Copy local PowerShell Module into the image
 COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
