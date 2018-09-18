@@ -27,9 +27,9 @@
     else
     {
 
-        if ($StartTime.AddMinutes(5 * $RefreshFrequencyMins) -lt (Get-Date))
+        if ($StartTime -and 0 -lt $RefreshFrequencyMins -and $StartTime.AddMinutes(5 * $RefreshFrequencyMins) -lt (Get-Date))
         {
-            $Compliancy = New-UDLink -Text "Offline" -Url $Url -Icon clock_o -FontColor Gray
+            $Compliancy = New-UDLink -Text "No Contact" -Url $Url -Icon chain_broken -FontColor Gray
             $Status = ""
 
         }

@@ -30,7 +30,15 @@ Function Get-DscDashboardNodes
         OUTER APPLY(
             SELECT top 1 * FROM StatusReport report
             WHERE (node.AgentId=report.Id) AND (OperationType in ('Consistency','Initial','LocalConfigurationManager')) AND (StartTime<CURRENT_TIMESTAMP)
-            ORDER BY report.OperationType,report.StartTime desc
+            ORDER BY 
+                -- Consistency and Initial are equivalent
+                CASE report.OperationType
+                    WHEN 'Consistency' THEN '0'
+                    WHEN 'Initial' THEN '0'
+                    WHEN 'LocalConfigurationManager' THEN '10'
+                    ELSE '99'
+                END ,
+                report.StartTime desc
         ) AS [LastReport]
 "@
 
