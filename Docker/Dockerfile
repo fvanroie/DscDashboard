@@ -47,13 +47,12 @@ COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
 ENV DSC_SQL "Server={0}; UID={1}; PWD={2}"
 
 # Create ODBC DSN
-RUN echo ' \
-        [DscDashboard] \
-        DRIVER   = ODBC Driver 17 for SQL Server \
-        DATABASE = DSC \
-        TrustServerCertificate = yes \
-        Encrypt  = yes \
-    ' > /etc/odbc.ini \
+RUN echo "[DscDashboard] \
+        \nDRIVER   = ODBC Driver 17 for SQL Server \
+        \nDATABASE = DSC \
+        \nTrustServerCertificate = yes \
+        \nEncrypt  = yes \
+    " > /etc/odbc.ini \
     \
     && echo "Download UniversalDashboard.Community from the PowerShell Gallery and check the 2 modules can be found" \
     && pwsh -c ' \
