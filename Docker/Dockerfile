@@ -45,11 +45,18 @@ ENV DSC_CONTAINER_VERSION ${VERSION}
 ENV DSC_CONNECTIONSTRING "DSN=DscDashboard; Server={0}; UID={1}; PWD={2}"
 
 # Create ODBC DSN
-RUN echo "[DscDashboard]\nDRIVER = ODBC Driver 17 for SQL Server\nDATABASE = DSC\nTrustServerCertificate=yes\nEncrypt=yes" > /etc/odbc.ini
+RUN echo "[DscDashboard]" >> /etc/odbc.ini \
+    && echo "DRIVER   = ODBC Driver 17 for SQL Server" >> /etc/odbc.ini \
+    && echo "DATABASE = DSC" >> /etc/odbc.ini \
+    && echo "TrustServerCertificate = yes" >> /etc/odbc.ini \
+    && echo "Encrypt  = yes" >> /etc/odbc.ini
 
-# Check if PowerShell can run. Download UniversalDashboard.Community from the PowerShell Gallery and check the modules
-RUN pwsh -c '$ProgressPreference = "SilentlyContinue"; Find-Module "UniversalDashboard.Community" -Min 2.0.1 | Save-Module -Path "/usr/local/share/powershell/Modules/" -AcceptLicense -Verbose' \
-    && pwsh -c "If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
+# Download UniversalDashboard.Community from the PowerShell Gallery and check the modules can be found
+RUN export pwshcmd = '$ProgressPreference = "SilentlyContinue"' \
+    && export pwshcmd = "$pwshcmd ; Find-Module 'UniversalDashboard.Community' -Min 2.0.1" \
+    && export pwshcmd = "$pwshcmd | Save-Module -Path '/usr/local/share/powershell/Modules/' -AcceptLicense -Verbose" \
+    && export pwshcmd = "$pwshcmd ; If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
+    && pwsh -c "$pwshcmd # Execute the commands" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
