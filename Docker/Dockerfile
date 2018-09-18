@@ -53,10 +53,10 @@ RUN echo ' \
         DATABASE = DSC \
         TrustServerCertificate = yes \
         Encrypt  = yes \
-    ' > /etc/odbc.ini
-
-# Download UniversalDashboard.Community from the PowerShell Gallery and check the modules can be found
-RUN script=' \
+    ' > /etc/odbc.ini \
+    \
+    && echo "Download UniversalDashboard.Community from the PowerShell Gallery and check the 2 modules can be found"
+    && pwsh -c ' \
         $ProgressPreference = "SilentlyContinue"; \
         \
         Find-Module "UniversalDashboard.Community" -Min 2.0.1 | \
@@ -66,7 +66,7 @@ RUN script=' \
             Throw "Required Modules not available!" \
         } \
     ' \
-    && pwsh -c "$script" \
+    && echo "Create a link to the dashboard in the root diretory"
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
