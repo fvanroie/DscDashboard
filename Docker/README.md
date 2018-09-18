@@ -33,7 +33,7 @@ If the build succeeded, you will see:
 
 Run the image, binding associated ports and SQL Server connection string:
 
-    docker run -p 80:80 --env DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' dscdashboard
+    docker run -p 8080:80 --env DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' dscdashboard
 
 Change the `<hostname>`, `<readuser>` and `<password>` in the `DSC_SQL` to the appropriate values to
 connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
@@ -41,17 +41,26 @@ for testing purposes.
 
 The DSC Dashboard module only uses SELECT queries and does not modify the database.
 
-You can also set the `DSC_SQL` in the Dockerfile and rebuild the image.
+## Disclaimer
+
+You can also set the `DSC_SQL` environment variable inside the Dockerfile and rebuild the image.
+
+> This container is provided for proof-of-concept purposes only.
+> If you want to run the DSC dashboard in a production environment
+> consider using IIS with Domain authentication and https binding.
+>
+> The information in the DSC database should be regarded as extrememy sensitive because it contains
+> the configurations of your environment!
 
 ## Services
 
 Service     | Port | Usage
 ------------|------|------
-DscDashboard|   80 | When using `dscdashboard run`, visit `http://localhost` in your browser.
+DscDashboard|   80 | When using `dscdashboard run`, visit `http://localhost:8080` in your browser.
 
 
 ## Volumes
 
 Volume          | Description
 ----------------|-------------
-`/app`          | The location of the DocPad application root.
+none            | No volumes are required
