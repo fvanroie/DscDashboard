@@ -1,7 +1,5 @@
 # DSC Dashboard Dockerfile
 
-[Docker](http://docker.com) container to use [DscDashboard](https://github.com/fvanroie/DscDashboard).
-
 ## Description
 
 This [Docker](http://docker.com) container hosts the [DscDashboard](https://github.com/fvanroie/DscDashboard) and all of its dependencies.
@@ -14,9 +12,19 @@ The container has these packages installed:
     - UniversalDashboard.Community module
 - ODBC Driver for SQL Server
 
+### Disclaimer
+
+> This container is provided for proof-of-concept for testing purposes only.
+> If you want to run the DSC dashboard in a production environment
+> consider using [IIS with Domain authentication and https binding](#).
+>
+> The information in the DSC database should be regarded as extremely sensitive because it contains
+> the configurations of your environment!
+
+
 ## Usage
 
-### Install
+### Installation
 
 Build `dscdashboard` from source:
 
@@ -41,25 +49,17 @@ for testing purposes.
 
 The DSC Dashboard module only uses SELECT queries and does not modify the database.
 
-## Disclaimer
-
 You can also set the `DSC_SQL` environment variable inside the Dockerfile and rebuild the image.
 
-> This container is provided for proof-of-concept purposes only.
-> If you want to run the DSC dashboard in a production environment
-> consider using IIS with Domain authentication and https binding.
->
-> The information in the DSC database should be regarded as extrememy sensitive because it contains
-> the configurations of your environment!
 
-## Services
+### Services
 
 Service     | Port | Usage
 ------------|------|------
 DscDashboard|   80 | When using `dscdashboard run`, visit `http://localhost:8080` in your browser.
 
 
-## Volumes
+### Volumes
 
 Volume          | Description
 ----------------|-------------
