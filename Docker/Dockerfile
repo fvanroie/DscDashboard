@@ -52,10 +52,10 @@ RUN echo "[DscDashboard]" >> /etc/odbc.ini \
     && echo "Encrypt  = yes" >> /etc/odbc.ini
 
 # Download UniversalDashboard.Community from the PowerShell Gallery and check the modules can be found
-RUN export pwshcmd = '$ProgressPreference = "SilentlyContinue"' \
-    && export pwshcmd = "$pwshcmd ; Find-Module 'UniversalDashboard.Community' -Min 2.0.1" \
-    && export pwshcmd = "$pwshcmd | Save-Module -Path '/usr/local/share/powershell/Modules/' -AcceptLicense -Verbose" \
-    && export pwshcmd = "$pwshcmd ; If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
+RUN export pwshcmd='$ProgressPreference = "SilentlyContinue"' \
+    && export pwshcmd="$pwshcmd ; Find-Module 'UniversalDashboard.Community' -Min 2.0.1" \
+    && export pwshcmd="$pwshcmd | Save-Module -Path '/usr/local/share/powershell/Modules/' -AcceptLicense -Verbose" \
+    && export pwshcmd="$pwshcmd ; If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
     && pwsh -c "$pwshcmd # Execute the commands" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
