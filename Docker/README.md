@@ -21,7 +21,7 @@ Build `dscdashboard` from source:
 
     git clone https://github.com/fvanroie/DscDashboard.git
     cd DscDashboard
-    docker build -t dscdashboard ./Docker/
+    sudo docker build -t dscdashboard -f Docker/Dockerfile .
 
 ### Run
 
