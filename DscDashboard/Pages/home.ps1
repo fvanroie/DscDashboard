@@ -30,7 +30,7 @@ New-UDPage -Name "Home" -Icon home -Content {
                                     $colors += 'red'
                                     break
                                 }
-                                'Offline' {
+                                'No Contact' {
                                     $colors += 'gray'
                                     break
                                 }
@@ -43,7 +43,33 @@ New-UDPage -Name "Home" -Icon home -Content {
 
                 #endregion
 
-                New-UDCard -Title "Resource Compliancy"
+                #region Resource Compliancy
+                New-UDChart -Title "Resource Compliancy" -Type Doughnut -RefreshInterval 60 -Endpoint {
+
+                    $result = $Cache:AllNodes #| select -ExpandProperty Compliancy | Group-Object -Property text | Sort-Object name
+
+                    # Build the legend using appropriate colors
+                    $colors = @('green','orange')
+                    $data = @(
+                        [PSCustomObject]@{
+                            'Name' = 'Compliant'
+                            'Count' = 0
+                        }
+                        [PSCustomObject]@{
+                            'Name' = 'Not Compliant'
+                            'Count' = 0
+                        }
+                    )
+                    $result | ForEach-Object {
+                        $data[0].Count += $_.ResourcesInDesiredState
+                        $data[1].Count += $_.ResourcesNotInDesiredState
+                    }
+
+                    $data | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -DatasetLabel "Resource Compliancy" -BackgroundColor $colors
+
+                } -Options $legendOptions #-Links $nodesLink
+
+            #endregion
 
                 #region Reboot Requested
                     New-UDChart -Title "Reboot Requested" -Type Doughnut -RefreshInterval 60 -Endpoint {
