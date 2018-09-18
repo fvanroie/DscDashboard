@@ -30,27 +30,26 @@ LABEL maintainer="NetwiZe.be" \
 # Suppress Dialog warning from msodbcsql17 and mssql-tools packages because we are running unattended
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install msodbcsql17 mssql-tools unixodbc
+# Install msodbcsql17 mssql-tools unixodbc and download UniversalDashboard.Community
 RUN apt-get update \
     && ACCEPT_EULA=Y apt-get install msodbcsql17 mssql-tools unixodbc -y --no-install-recommends \
     && apt-get dist-upgrade -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && pwsh -c '$ProgressPreference = SilentlyContinue; Find-Module UniversalDashboard.Community -Min 2.0.1 | Save-Module /usr/local/share/powershell/Modules -AcceptLicense -v'
 
-# Copy local PowerShell Modules into the image
+# Copy local PowerShell Module into the image
 COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
-#COPY UniversalDashboard.Community /usr/local/share/powershell/Modules/UniversalDashboard.Community
-RUN pwsh -c 'Find-Module UniversalDashboard.Community -MinimumVersion 2.0.1 | Save-Module -Path /usr/local/share/powershell/Modules -AcceptLicense -Verbose'
 
 # Set Environment Variables
 ENV DSC_CONTAINER_VERSION ${VERSION}
 ENV DSC_CONNECTIONSTRING "DSN=DscDashboard; Server={0}; UID={1}; PWD={2}"
 
-RUN sed -i 's/\[ODBC Driver 17\ for SQL Server\]/\[SQL Server\]/' /etc/odbcinst.ini \
-  && echo "[DscDashboard]\nDRIVER = SQL Server\nDATABASE = DSC\nTrustServerCertificate=yes\nEncrypt=yes" > /etc/odbc.ini
+# Create ODBC DSN
+RUN echo "[DscDashboard]\nDRIVER = ODBC Driver 17 for SQL Server\nDATABASE = DSC\nTrustServerCertificate=yes\nEncrypt=yes" > /etc/odbc.ini
 
 # Check if PowerShell can run and find the modules
-RUN pwsh -c "If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -ListAvailable).Count -ne 2) { Throw 'PowerShell Modules are not available. Place the DscDashboard and UniversalDashboard.Community folders in the local path and try again!' }" \
+RUN pwsh -c "If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
     && pwsh -c 'Write-Host "DSC_CONNECTIONSTRING = $env:DSC_CONNECTIONSTRING"' \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
