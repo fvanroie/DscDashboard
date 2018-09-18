@@ -1,10 +1,13 @@
-# Docker image file that describes an Ubuntu18.04 image with PowerShell, SQL Server ODBC Driver and
-# MS-SQL tools installed from Microsoft APT Repo
+##################################################################################################################
 #
-# Two PowerShel Modules UniversalDashboard.Community and DscDashboard are added for the Web Frontend
-# and Backend, respectively
+# Docker image file that describes an Ubuntu18.04 image with PowerShell, SQL Server ODBC Driver and MS-SQL
+# tools installed from Microsoft APT Repo
+#
+# PowerShel Modules UniversalDashboard.Community and DscDashboard are then added for the Web Frontend and Backend
+#
+##################################################################################################################
 
-# The Ubuntu 18.04 image for PowerShell also supports Microsoft ODBC Driver 17 for SQL Server
+# The powershell:6.1.0-ubuntu-18.04 base image also supports Microsoft ODBC Driver 17 for SQL Server install via apt
 FROM mcr.microsoft.com/powershell:6.1.0-ubuntu-18.04
 
 ARG VERSION=0.0.1
@@ -37,28 +40,32 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy local PowerShell Module into the image
+# Copy local PowerShell DscDashboard Module into the image
 COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
 
 # Set Environment Variables
-ENV DSC_CONTAINER_VERSION ${VERSION}
-ENV DSC_CONNECTIONSTRING "DSN=DscDashboard; Server={0}; UID={1}; PWD={2}"
+ENV DSC_SQL "DSN=DscDashboard; Server={0}; UID={1}; PWD={2}"
 
 # Create ODBC DSN
-RUN echo "[DscDashboard]" >> /etc/odbc.ini \
-    && echo "DRIVER   = ODBC Driver 17 for SQL Server" >> /etc/odbc.ini \
-    && echo "DATABASE = DSC" >> /etc/odbc.ini \
-    && echo "TrustServerCertificate = yes" >> /etc/odbc.ini \
-    && echo "Encrypt  = yes" >> /etc/odbc.ini
+RUN echo ' \
+        [DscDashboard] \
+        DRIVER   = ODBC Driver 17 for SQL Server \
+        DATABASE = DSC \
+        TrustServerCertificate = yes \
+        Encrypt  = yes \
+	' > /etc/odbc.ini
 
 # Download UniversalDashboard.Community from the PowerShell Gallery and check the modules can be found
-RUN export pwshcmd='$ProgressPreference = "SilentlyContinue"' \
-    && export pwshcmd="$pwshcmd ; Find-Module 'UniversalDashboard.Community' -Min 2.0.1" \
-    && export pwshcmd="$pwshcmd | Save-Module -Path '/usr/local/share/powershell/Modules/' -AcceptLicense -Verbose" \
-    && export pwshcmd="$pwshcmd ; If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
-    && pwsh -c "$pwshcmd # Execute the commands" \
+RUN script='$ProgressPreference = "SilentlyContinue"; \
+        Find-Module "UniversalDashboard.Community" -Min 2.0.1 | \
+        Save-Module -Path "/usr/local/share/powershell/Modules/" -AcceptLicense -Verbose \
+        If ((Get-Module "DscDashboard","UniversalDashboard.Community" -List).Count -ne 2) { \
+            Throw "Required Modules not available!" \
+        }" \
+    ' \
+    && pwsh -c "$script # Execute the commands" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
-ENTRYPOINT [ "pwsh" ]
+ENTRYPOINT [ "/usr/bin/pwsh" ]
 CMD [ "dashboard.ps1" ]
