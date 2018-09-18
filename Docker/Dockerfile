@@ -30,13 +30,12 @@ LABEL maintainer="NetwiZe.be" \
 # Suppress Dialog warning from msodbcsql17 and mssql-tools packages because we are running unattended
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install msodbcsql17 mssql-tools unixodbc and download UniversalDashboard.Community
+# Install msodbcsql17 mssql-tools unixodbc
 RUN apt-get update \
     && ACCEPT_EULA=Y apt-get install msodbcsql17 mssql-tools unixodbc -y --no-install-recommends \
     && apt-get dist-upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && pwsh -c '$ProgressPreference = "SilentlyContinue"; Find-Module "UniversalDashboard.Community" -Min 2.0.1 | Save-Module /usr/local/share/powershell/Modules -AcceptLicense -Verbose'
 
 # Copy local PowerShell Module into the image
 COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
@@ -48,9 +47,9 @@ ENV DSC_CONNECTIONSTRING "DSN=DscDashboard; Server={0}; UID={1}; PWD={2}"
 # Create ODBC DSN
 RUN echo "[DscDashboard]\nDRIVER = ODBC Driver 17 for SQL Server\nDATABASE = DSC\nTrustServerCertificate=yes\nEncrypt=yes" > /etc/odbc.ini
 
-# Check if PowerShell can run and find the modules
-RUN pwsh -c "If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
-    && pwsh -c 'Write-Host "DSC_CONNECTIONSTRING = $env:DSC_CONNECTIONSTRING"' \
+# Check if PowerShell can run. Download UniversalDashboard.Community from the PowerShell Gallery and check the modules
+RUN pwsh -c '$ProgressPreference = "SilentlyContinue"; Find-Module "UniversalDashboard.Community" -Min 2.0.1 | Save-Module -Path /usr/local/share/powershell/Modules -AcceptLicense -Verbose' \
+    && pwsh -c "If ((Get-Module 'DscDashboard','UniversalDashboard.Community' -List).Count -ne 2) { Throw 'Required Modules not available!' }" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
