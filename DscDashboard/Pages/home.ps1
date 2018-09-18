@@ -11,12 +11,12 @@ New-UDPage -Name "Home" -Icon home -Content {
                 #region Node Compliancy
                     New-UDChart -Title "Node Compliancy" -Type Doughnut -RefreshInterval 60 -Endpoint {
 
-                        $result = $Cache:AllNodes | select -ExpandProperty Compliancy | Group-Object -Property text | Sort-Object name
+                        $result = $Cache:AllNodes | Select-Object -ExpandProperty Compliancy | Group-Object -Property text | Sort-Object name
 
 
                         # Build the legend using appropriate colors
                         $colors = @()
-                        $result | foreach {
+                        $result | ForEach-Object {
                             switch ($_.Name) {
                                 'Compliant' {
                                     $colors += 'green'
@@ -76,7 +76,7 @@ New-UDPage -Name "Home" -Icon home -Content {
 
                         $colors = @('green','red')
 
-                        $result = $Cache:AllNodes | select -Property RebootRequested | Group-Object -Property RebootRequested | select count,name | Sort-Object name
+                        $result = $Cache:AllNodes | Select-Object -Property RebootRequested | Group-Object -Property RebootRequested | Select-Object count,name | Sort-Object name
 
                         #inverse colors if the first item is true
                         #if ($result[0].name) {
@@ -95,7 +95,7 @@ New-UDPage -Name "Home" -Icon home -Content {
 
                         $colors = @('#BF9BCF','#0066CC','#F5E44C','#B2F2EC','#FDCCC6','#CCE0F4',"#D6B77C","#9FC9D4"   ,"#CCCCCC","#32389F")
 
-                        $result = $Cache:AllNodes | select -Property OS | Group-Object -Property OS | select count,name | Sort-Object name
+                        $result = $Cache:AllNodes | Select-Object -Property OS | Group-Object -Property OS | Select-Object count,name | Sort-Object name
                         $result | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -DatasetLabel "Node Compliancy" -BackgroundColor $colors
 
                     } -Options $legendOptions #-Links $nodesLink
@@ -106,7 +106,7 @@ New-UDPage -Name "Home" -Icon home -Content {
 
                         $colors = @('#CCE0F4',"#D6B77C","#9FC9D4"   ,"#CCCCCC","#32389F", '#BF9BCF','#0066CC','#F5E44C','#B2F2EC','#FDCCC6')
 
-                        $result = $Cache:AllNodes | select -Property PSVersion | Group-Object -Property PSVersion | select count,name | Sort-Object name
+                        $result = $Cache:AllNodes | Select-Object -Property PSVersion | Group-Object -Property PSVersion | Select-Object count,name | Sort-Object name
                         $result | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -DatasetLabel "Node Compliancy" -BackgroundColor $colors
 
                     } -Options $legendOptions #-Links $nodesLink
