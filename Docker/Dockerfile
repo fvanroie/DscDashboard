@@ -1,11 +1,11 @@
-##################################################################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
-# Docker image file that describes an Ubuntu18.04 image with PowerShell, SQL Server ODBC Driver and MS-SQL
-# tools installed from Microsoft APT Repo
+# Docker image file that describes an Ubuntu 18.04 image with PowerShell 6.1.0, SQL Server ODBC Driver and MS-SQL tools
+# installed from Microsoft APT Repo
 #
 # PowerShel Modules UniversalDashboard.Community and DscDashboard are then added for the Web Frontend and Backend
 #
-##################################################################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # The powershell:6.1.0-ubuntu-18.04 base image also supports Microsoft ODBC Driver 17 for SQL Server install via apt
 FROM mcr.microsoft.com/powershell:6.1.0-ubuntu-18.04
@@ -63,7 +63,7 @@ RUN script='$ProgressPreference = "SilentlyContinue"; \
             Throw "Required Modules not available!" \
         }" \
     ' \
-    && pwsh -c "$script # Execute the commands" \
+    && pwsh -c "$script" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
