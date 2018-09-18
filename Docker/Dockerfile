@@ -39,7 +39,8 @@ RUN apt-get update \
 
 # Copy local PowerShell Modules into the image
 COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
-COPY UniversalDashboard.Community /usr/local/share/powershell/Modules/UniversalDashboard.Community
+#COPY UniversalDashboard.Community /usr/local/share/powershell/Modules/UniversalDashboard.Community
+RUN pwsh -c 'Find-Module UniversalDashboard.Community -MinimumVersion 2.0.1 | Install-Module -AcceptLicense -Verbose'
 
 # Set Environment Variables
 ENV DSC_CONTAINER_VERSION ${VERSION}

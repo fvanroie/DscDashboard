@@ -10,7 +10,8 @@ It can be used to quickly test the DSC Dashboard in your environment.
 The container has these packages installed:
 - Ubuntu 18.04 LTS
 - PowerShell 6.1.0
-- UniversalDashboard.Community module
+    - DscDashboard module
+    - UniversalDashboard.Community module
 - ODBC Driver for SQL Server
 
 ## Usage
@@ -30,8 +31,8 @@ The location of the directory may vary depending on your system:
 
 If the UniversalDashboard.Community directory is missing the build will fail:
 
-    Step 8/14 : COPY UniversalDashboard.Community /usr/local/share/powershell/Modules/UniversalDashboard.Community
-    COPY failed: stat /var/lib/docker/tmp/docker-builder635691960/UniversalDashboard.Community: no such file or directory
+    Step 7/9: COPY UniversalDashboard.Community /usr/local/share/powershell/Modules/UniversalDashboard.Community
+    COPY failed: stat /var/lib/docker/tmp/docker-builder/UniversalDashboard.Community: no such file or directory
 
 If the build succeeded, you will see:
 
@@ -40,13 +41,16 @@ If the build succeeded, you will see:
 
 ### Run
 
-Run the image, binding associated ports, and mounting the present working
-directory:
+Run the image, binding associated ports and SQL Server connection string:
 
-    docker run -p 80:80 --env DSC_CONNECTIONSTRING='SERVER=<hostname>; Uid=<readuser>; Pwd=<password>' dscdashboard
+    docker run -p 80:80 --env DSC_CONNECTIONSTRING='SERVER=<hostname>; Uid=<user>; Pwd=<password>' dscdashboard
 
-Change the `<hostname>`, `<readuser>` and `<password>` in the `DSC_CONNECTIONSTRING` to the appropriate values to connect to the DSC database on the SQL Server.
-This should be a temporary read-only account on the DSC database for testing purposes. The DscDashboard only uses SELECT queries and does not modify the database.
+Change the `<hostname>`, `<readuser>` and `<password>` in the `DSC_CONNECTIONSTRING` to the appropriate values to
+connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
+for testing purposes.
+
+The DSC Dashboard module only uses SELECT queries and does not modify the database.
+
 You can also set the `DSC_CONNECTIONSTRING` in the Dockerfile and rebuild the image.
 
 ## Services
