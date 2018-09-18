@@ -21,7 +21,22 @@ Build `dscdashboard` from source:
 
     git clone https://github.com/fvanroie/DscDashboard.git
     cd DscDashboard
+
+You need to copy the UniversalDashboard.Community module into the current build directory.
+The location of the directory may vary depending on your system:
+
+    cp -r /usr/local/share/powershell/Modules/UniversalDashboard.Community ./
     sudo docker build -t dscdashboard -f Docker/Dockerfile .
+
+If the UniversalDashboard.Community directory is missing the build will fail:
+
+    Step 8/14 : COPY UniversalDashboard.Community /usr/local/share/powershell/Modules/UniversalDashboard.Community
+    COPY failed: stat /var/lib/docker/tmp/docker-builder635691960/UniversalDashboard.Community: no such file or directory
+
+If the build succeeded, you will see:
+
+    Successfully built <imageid>
+    Successfully tagged dscdashboard:latest
 
 ### Run
 
