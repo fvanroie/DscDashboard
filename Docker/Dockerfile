@@ -58,10 +58,10 @@ RUN echo ' \
 # Download UniversalDashboard.Community from the PowerShell Gallery and check the modules can be found
 RUN script='$ProgressPreference = "SilentlyContinue"; \
         Find-Module "UniversalDashboard.Community" -Min 2.0.1 | \
-        Save-Module -Path "/usr/local/share/powershell/Modules/" -AcceptLicense -Verbose \
+        Save-Module -Path "/usr/local/share/powershell/Modules/" -AcceptLicense -Verbose; \
         If ((Get-Module "DscDashboard","UniversalDashboard.Community" -List).Count -ne 2) { \
             Throw "Required Modules not available!" \
-        }" \
+        } \
     ' \
     && pwsh -c "$script" \
     && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
