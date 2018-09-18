@@ -20,8 +20,8 @@ The container has these packages installed:
 Build `dscdashboard` from source:
 
     git clone https://github.com/fvanroie/DscDashboard.git
-    cd DscDashboad
-    cd Docker Docker
+    cd DscDashboard
+    cd Docker
     docker build -t dscdashboard .
 
 ### Run
