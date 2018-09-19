@@ -7,7 +7,6 @@ catch {
 }
 finally {
     Import-Module 'DscDashboard'
-    #Requires -Modules DscDashboard
 }
 
 
@@ -93,4 +92,4 @@ Start-UDDashboard -Endpoint $RefreshAllNodes -Dashboard (
 
     New-UDDashboard -Theme $Theme -Title "DSC Dashboard" -Pages $Pages -EndpointInitialization $Initialization -Footer $Footer -NavBarLogo $logo -NavbarLinks $NavBarLinks # -CyclePagesInterval 150 -CyclePages
 
-) -AutoReload -port 4242 #-Wait -port 4242 # -Wait is needed for hosting
+) -AutoReload -Wait #-port 4242 # -Wait is needed for hosting
