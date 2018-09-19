@@ -27,9 +27,9 @@ It can be used to quickly test the DSC Dashboard in your environment. The follow
 To build `dscdashboard` from source:
 
 ```bash
-    git clone https://github.com/fvanroie/DscDashboard.git
-    cd DscDashboard
-    sudo docker build -t dscdashboard -f Docker/Dockerfile .
+git clone https://github.com/fvanroie/DscDashboard.git
+cd DscDashboard
+sudo docker build -t dscdashboard -f Docker/Dockerfile .
 ```
 
 If the build succeeded, you will see:
@@ -42,7 +42,7 @@ If the build succeeded, you will see:
 Test the image, binding associated ports and SQL Server connection string:
 
 ```bash
-    docker run -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+docker run -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 ```
 Press Ctrl-C to stop the website and exit the container when done testing.
 
@@ -51,7 +51,7 @@ Press Ctrl-C to stop the website and exit the container when done testing.
 To run the container in the background:
 
 ```bash
-    docker run -d -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+docker run -d -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 ```
 
 Change the `<hostname>`, `<user>` and `<password>` in the `DSC_SQL` argument to the appropriate values to
@@ -65,7 +65,7 @@ You can also set the `DSC_SQL` environment variable by editing the Dockerfile an
 You can troubleshoot or debug the containter with the following command:
 
 ```bash
-    docker run -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
+docker run -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
 ```
 
 This will give you an interactive PowerShell prompt. Type `exit` to stop the container session.
