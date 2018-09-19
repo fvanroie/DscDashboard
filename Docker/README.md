@@ -2,31 +2,29 @@
 
 ## Description
 
-This [Docker](http://docker.com) container hosts the [DscDashboard](https://github.com/fvanroie/DscDashboard) and all of its dependencies.
-It can be used to quickly test the DSC Dashboard in your environment.
-
-The container has these packages installed:
+This [Docker](http://docker.com) container hosts the [DscDashboard](https://github.com/fvanroie/DscDashboard) module and all of its dependencies.
+It can be used to quickly test the DSC Dashboard in your environment. The following packages are isntalled:
 - Ubuntu 18.04 LTS
 - PowerShell 6.1.0
-    - DscDashboard module
-    - UniversalDashboard.Community module
+    - [DscDashboard](https://github.com/fvanroie/DscDashboard) module
+    - [UniversalDashboard.Community](http://poshud.com) module
 - ODBC Driver for SQL Server
 
-### Disclaimer
+#### Disclaimer
 
-> This container is provided for proof-of-concept for testing purposes only.
+> *This container is provided for proof-of-concept for testing purposes only.
 > If you want to run the DSC dashboard in a production environment
-> consider using [IIS with Domain authentication and https binding](#).
+> consider using [IIS with Domain authentication and https binding](#).*
 >
-> The information in the DSC database should be regarded as extremely sensitive because it contains
-> the configurations of your environment!
+> *The information in the DSC database should be regarded as extremely sensitive because it contains
+> the configurations of your environment!*
 
 
 ## Usage
 
 ### Installation
 
-Build `dscdashboard` from source:
+To build `dscdashboard` from source:
 
     git clone https://github.com/fvanroie/DscDashboard.git
     cd DscDashboard
