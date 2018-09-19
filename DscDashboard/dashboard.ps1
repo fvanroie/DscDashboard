@@ -73,7 +73,7 @@ $logo = New-UDImage -Height 125 -Width 125 -Url "data:image/svg+xml;base64,PD94b
 #endregion
 
 # Get The pages
-$PagesPath = Join-Path $PSScriptRoot "pages"
+$PagesPath = Join-Path $PSScriptRoot "Pages"
 $Footer = . (Join-Path $PagesPath "footer.ps1")
 
 $Pages = @()
