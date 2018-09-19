@@ -37,6 +37,7 @@ If the build succeeded, you will see:
     Successfully built <imageid>
     Successfully tagged dscdashboard:latest
 
+
 ### Test
 
 Test the newly built image, bind associated public port and provide a SQL Server connection string:
@@ -45,12 +46,21 @@ Test the newly built image, bind associated public port and provide a SQL Server
 docker run -rm -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 ```
 
+Change the `<hostname>`, `<user>` and `<password>` in the `DSC_SQL` argument to the appropriate values to
+connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
+for testing purposes.
+
+You can also set the `DSC_SQL` environment variable by editing the Dockerfile and rebuilding the image.
+
+
 After a little while you should see this message:
 
     Now listening on: http://0.0.0.0:80
     Application started. Press Ctrl+C to shut down.
 
-Press Ctrl-C to stop the website and exit the container when done testing.
+Browse to the http://<ipaddress:port> to test the DSC Dashboard. Press Ctrl-C to stop the website and exit the container when done testing.
+
+![Dashboard](docs/images/dashboard.png)
 
 ### Run
 
@@ -60,11 +70,6 @@ To run the container in the background:
 docker run -d -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 ```
 
-Change the `<hostname>`, `<user>` and `<password>` in the `DSC_SQL` argument to the appropriate values to
-connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
-for testing purposes.
-
-You can also set the `DSC_SQL` environment variable by editing the Dockerfile and rebuilding the image.
 
 ### Debug
 
@@ -75,6 +80,7 @@ docker run -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
 ```
 
 This will give you an interactive PowerShell prompt. Type `exit` to stop the container session.
+
 
 ### Services
 
