@@ -1,6 +1,16 @@
-## Installation on Windows IIS
+# Installation on Windows IIS
 
-### DSC Configuration
+This page describes how to install DSC Dashboard module and its dependencies on a Windows computer using IIS.
+
+## Summary
+
+The Universal Dashboard can run directly from PowerShell but it is recommended to host the site in IIS.
+The DSCService already has a dependancy on IIS. DSC Dashboard can be hosted on the same machine or another server.
+
+Alternatively there is a [Docker](../Docker) container that has all the components installed to run the DscDashboard
+and connect to a SQL Server hosting the DSC database.
+
+## DSC Configuration
 
 ```powershell
 configuration InstallDscDashboard
@@ -162,6 +172,20 @@ configuration InstallDscDashboard
 } # configuration
 ```
 
+Save the configuration file as InstallDscDashboard.ps1
+
+Next execute these steps to load (dot source), compile and apply the configuration on the computer:
+
+```powershell
+. .\InstallDscDashboard.ps1
+InstallDscDashboard -OutputPath . -Verbose
+Start-DscConfiguration -Path .\InstallDscDashboard -Computername localhost -Wait -Verbose
+```
+
+You now have installed the DSC Dashboard site in IIS. Browse to http://localhost to view the result.
+
+## Manual Steps
+
 ### Install IIS and Websockets
 
 ```powershell
@@ -173,6 +197,7 @@ Display Name                                            Name                    
             [X] WebSocket Protocol                      Web-WebSockets                 Installed
 ```
 
+Websockets needs to be installed and enabled in IIS for the dashboard to work properly.
 
 ### Install .Net Core Hosting Bundle
 
@@ -189,7 +214,7 @@ Reboot the server to make the changes to the environment variables active.
 
 ### Install the modules
 
-Install the DscDashboard and UniversalDashboard modules in the folder C:\Program Files\WindowsPowershell\Modules:
+Download and install the DscDashboard and UniversalDashboard modules in the folder C:\Program Files\WindowsPowershell\Modules:
 
 ```powershell
 PS> Get-Module -Name "*Dashboard*" -ListAvailable
@@ -213,5 +238,7 @@ You can use another directory if the Default Website is already used to host a s
 Copy:
 - The entire contents of C:\Program Files\WindowsPowershell\Modules\UniversalDashboard
     to C:\initpub\wwwroot\
-- The file dashboard.ps1 from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
+- The file dashboard.ps1 file from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
+    to C:\initpub\wwwroot\
+- The file Pages folder from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
     to C:\initpub\wwwroot\

@@ -38,15 +38,6 @@ You need to have this module installed on the server hosting the dashboard. You 
 [Full edition](https://www.powershellgallery.com/packages/UniversalDashboard/) depending on your usage and license requirements.
 
 
-### Optional
-
-#### IIS with websockets enabled
-
-The Universal Dashboard can run directly from PowerShell but it is recommended to host the site in IIS. The DSCService already has a dependancy on IIS.
-Also, Websockets needs to be installed and enabled in IIS for the dashboard to work properly.
-
-Alternatively there is a Docker container that has all the components installed to run the DscDashboard and connect to a SQL Server hosting the DSC database.
-
 ## Synopsis
 
 A PowerShell Module to
