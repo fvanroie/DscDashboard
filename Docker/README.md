@@ -39,11 +39,17 @@ If the build succeeded, you will see:
 
 ### Test
 
-Test the image, binding associated ports and SQL Server connection string:
+Test the newly built image, bind associated public port and provide a SQL Server connection string:
 
 ```bash
-docker run -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+docker run -rm -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 ```
+
+After a little while you should see this message:
+
+    Now listening on: http://0.0.0.0:80
+    Application started. Press Ctrl+C to shut down.
+
 Press Ctrl-C to stop the website and exit the container when done testing.
 
 ### Run
