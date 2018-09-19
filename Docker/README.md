@@ -35,26 +35,39 @@ If the build succeeded, you will see:
     Successfully built <imageid>
     Successfully tagged dscdashboard:latest
 
-### Run
+### Test
 
-Run the image, binding associated ports and SQL Server connection string:
+Test the image, binding associated ports and SQL Server connection string:
 
-    docker run -p 8080:80 --env DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' dscdashboard
+    docker run -p 80:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 
-Change the `<hostname>`, `<readuser>` and `<password>` in the `DSC_SQL` to the appropriate values to
+Press Ctrl-C to stop the website and exit the container.
+
+## Run
+
+To run the container in the background:
+
+    docker run -d -p 80:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+
+Change the `<hostname>`, `<user>` and `<password>` in the `DSC_SQL` argument to the appropriate values to
 connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
 for testing purposes.
 
-The DSC Dashboard module only uses SELECT queries and does not modify the database.
+You can also set the `DSC_SQL` environment variable by editing the Dockerfile and rebuilding the image.
 
-You can also set the `DSC_SQL` environment variable inside the Dockerfile and rebuild the image.
+## Debug
 
+You can troubleshoot or debug the containter with the following command:
+
+    docker run -it -p 80:80 --name dsc dscdashboard -c pwsh -noexit -interactive
+
+This will give you an interactive PowerShell prompt. Type `exit` to stop the container session.
 
 ### Services
 
 Service     | Port | Usage
 ------------|------|------
-DscDashboard|   80 | When using `dscdashboard run`, visit `http://localhost:8080` in your browser.
+DscDashboard|   80 | Use `dscdashboard run` and visit `http://localhost` in your browser.
 
 
 ### Volumes

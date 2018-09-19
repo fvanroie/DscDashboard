@@ -28,7 +28,9 @@ Function Get-ODBCData
     Param(
 
         [String]$Query = $(Throw 'Query is required.'),
-        [String]$ConnectionString = $(Throw 'ConnectionString is required.'),
+
+        [AllowEmptyString()]
+        [String]$ConnectionString,
 
         [AllowEmptyCollection()]
         [System.Data.Odbc.OdbcParameter[]]$SqlParameter
@@ -41,12 +43,13 @@ Function Get-ODBCData
 
     $conn = New-Object System.Data.Odbc.OdbcConnection
     $conn.ConnectionString = $ConnectionString
+
     try {
         $conn.open()
     }
     catch {
         Throw $_
-    }
+    } # try
 
     if ($PSBoundParameters.ContainsKey('SqlParameter'))
     {
@@ -57,7 +60,7 @@ Function Get-ODBCData
 
         $SqlParameter | ForEach-Object {
             $cmd.Parameters.Add($_) | Out-Null
-        }
+        } # foreach
 
     }
     else
@@ -66,7 +69,7 @@ Function Get-ODBCData
         # SQL Statement without parameters
         $cmd = New-object System.Data.Odbc.OdbcCommand($Query, $conn)
 
-    }
+    } # if
 
     $ds = New-Object system.Data.DataSet
     (New-Object system.Data.odbc.odbcDataAdapter($cmd)).fill($ds) | Out-Null

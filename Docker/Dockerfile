@@ -65,9 +65,10 @@ RUN echo "[DscDashboard] \
             Throw "Required Modules not available!" \
         } \
     ' \
-    && echo "Create a link to the dashboard in the root directory" \
     && echo '& /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1' > /dashboard.ps1
 
+EXPOSE 80
+
 # The container will run the dashboard.ps1 file
-ENTRYPOINT [ "/usr/bin/pwsh" ]
+ENTRYPOINT [ "pwsh" ]
 CMD [ "dashboard.ps1" ]
