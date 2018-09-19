@@ -60,7 +60,7 @@ After a little while you should see this message:
 
 Browse to the http://<ipaddress:port> to test the DSC Dashboard. Press Ctrl-C to stop the website and exit the container when done testing.
 
-![Dashboard](docs/images/dashboard.png)
+![Dashboard](../docs/images/dashboard.png)
 
 ### Run
 
