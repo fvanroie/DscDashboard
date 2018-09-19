@@ -35,13 +35,12 @@ Function Get-ODBCData
 
     )
 
-    $ConnectionString = $env:DSC_CONNECTIONSTRING
     if (!$ConnectionString) {
-        $ConnectionString = 'DSN=DscDashboard'
+        $ConnectionString = "DSN=DscDashboard; $env:DSC_SQL"
     }
 
     $conn = New-Object System.Data.Odbc.OdbcConnection
-    $conn.ConnectionString = $ConnectionString #"DSN=$Dsn;"
+    $conn.ConnectionString = $ConnectionString
     try {
         $conn.open()
     }

@@ -1,14 +1,13 @@
-#Requires -Modules DscDashboard
-
 # Load the required Module Version
 try {
-    Import-Module 'UniversalDashboard.Community' -MinimumVersion 2.0.1
+    Import-Module 'UniversalDashboard' -MinimumVersion 2.0.1
 }
 catch {
-    Import-Module 'UniversalDashboard' -MinimumVersion 2.0.1
+    Import-Module 'UniversalDashboard.Community' -MinimumVersion 2.0.1
 }
 finally {
     Import-Module 'DscDashboard'
+    #Requires -Modules DscDashboard
 }
 
 
@@ -26,7 +25,7 @@ $legendOptions =  @{
 
 #region DSN Configuration
 
-    $DscConnectionString = $env:DSC_CONNECTIONSTRING
+    $ConnectionString = "DSN=DscDashboard; $env:DSC_SQL"
     if (!$DscConnectionString) {
         $DscConnectionString = 'DSN=DscDashboard'
     }
