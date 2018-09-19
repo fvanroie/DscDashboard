@@ -66,7 +66,7 @@ RUN echo "[DscDashboard] \
         } \
     ' \
     && echo "Create a link to the dashboard in the root directory" \
-    && ln -s /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1 /dashboard.ps1
+    && echo '& /usr/local/share/powershell/Modules/DscDashboard/dashboard.ps1' /dashboard.ps1
 
 # The container will run the dashboard.ps1 file
 ENTRYPOINT [ "/usr/bin/pwsh" ]
