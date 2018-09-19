@@ -1,19 +1,16 @@
 # Installation on Windows IIS
 
-This page describes how to install DSC Dashboard module and its dependencies on a Windows computer using IIS.
+This page describes how to host the DSC Dashboard on a Windows computer using IIS.
 
 ## Summary
 
-The Universal Dashboard can run directly from PowerShell but it is recommended to host the site in IIS.
-The DSCService already has a dependancy on IIS. DSC Dashboard can be hosted on the same machine or another server.
-
-Alternatively there is a [Docker](../Docker) container that has all the components installed to run the DscDashboard
-and connect to a SQL Server hosting the DSC database.
+The `dashboard.ps1` script can run directly from PowerShell but it is recommended to host the site in IIS.
+The DSCService already has a dependancy on IIS
 
 ## DSC Configuration
 
 ```powershell
-configuration InstallDscDashboard
+Configuration InstallDscDashboard
 {
     Import-DscResource -ModuleName PSDesiredStateConfiguration
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
@@ -28,10 +25,12 @@ configuration InstallDscDashboard
             Ensure = "Present"
         }
 
-        "Web-WebSockets","Web-Url-Auth","Web-Windows-Auth" |
+        "Web-WebSockets", "Web-Url-Auth", "Web-Windows-Auth" |
         ForEach-Object {
-            WindowsFeature "Enable-$_" {
-                Name = "Web-WebSockets"
+            $Package = $_
+
+            WindowsFeature "Enable-$Package" {
+                Name = $Package
                 Ensure = "Present"
                 DependsOn = "[WindowsFeature]InstallIIS"
             }
@@ -42,20 +41,23 @@ configuration InstallDscDashboard
         #>
         xRemoteFile DownloadDotNetCoreHostingBundle
         {
-            Uri = "https://download.microsoft.com/download/A/7/8/A78F1D25-8D5C-4411-B544-C7D527296D5E/dotnet-hosting-2.1.4-win.exe" #https://docs.microsoft.com/en-us/aspnet/core/publishing/iis
+            Uri = "https://download.microsoft.com/download/A/7/8/A78F1D25-8D5C-4411-B544-C7D527296D5E/dotnet-hosting-2.1.4-win.exe"
             DestinationPath = "C:\temp\dotnet-hosting-2.1.4-win.exe"
             MatchSource = $false
             #Proxy = "optional, your corporate proxy here"
             #ProxyCredential = "optional, your corporate proxy credential here"
         }
 
-        # Discover your product name and id with Get-WmiObject Win32_product | ft IdentifyingNumber,Name after installing it once
+        # Discover your product name and id after installing it once with:
+        #     Get-WmiObject Win32_product | Format-Table IdentifyingNumber,Name
         xPackage InstallDotNetCoreHostingBundle
         {
             Name = ".NET Core 2.1 Runtime & Hosting Bundle for Windows (v2.1.4)"
             ProductId = "CBC46E08-1043-4508-831E-1D5F07FD33AB"
+
             Arguments = "/quiet /norestart /log C:\temp\dotnet-hosting_install.log"
             Path = "C:\temp\dotnet-hosting-2.1.4-win.exe"
+
             DependsOn = @(
                 "[WindowsFeature]InstallIIS",
                 "[xRemoteFile]DownloadDotNetCoreHostingBundle"
@@ -98,7 +100,8 @@ configuration InstallDscDashboard
             DependsOn = "[xRemoteFile]DownloadDscDashboard"
         }
 
-        $ModulePath = ($env:PSModulePath -split ';') | ? { $_ -like "$env:ProgramFiles\*" } | Select-Object -First 1
+        $ModulePath = ($env:PSModulePath -split ';') |
+            Where-Object { $_ -like "$env:ProgramFiles\*" } | Select-Object -First 1
 
         File InstallDscDashboard
         {
@@ -111,17 +114,17 @@ configuration InstallDscDashboard
         }
 
         <#
-            Download UniversalDashboard.Community Module from PowwerShell Gallery
+            Download UniversalDashboard.Community Module from PowerShell Gallery
         #>
-        Script InstallUniversalDashboard {
+        Script DownloadUniversalDashboard {
 
             SetScript = {
                 $ModuleName = 'UniversalDashboard.Community'
                 $MinimumVersion = '2.0.1'
 
-                # Run the IIS Administration installer
                 $ProgressPreference = 'SilentlyContinue'
-                Find-Module -Name $ModuleName -MinimumVersion $MinimumVersion -Verbose:$false | Save-Module -Path 'C:\Temp\' -AcceptLicense -Verbose
+                Find-Module -Name $ModuleName -Min $MinimumVersion -Verbose:$false |
+                Save-Module -Path 'C:\Temp\' -AcceptLicense -Verbose
             }
             GetScript = {
                 $ModuleName = 'UniversalDashboard.Community'
@@ -129,7 +132,7 @@ configuration InstallDscDashboard
 
                 $result = $null
                 try {
-                    Import-Module -Name "C:\Temp\$ModuleName" -MinimumVersion $MinimumVersion -Force -ErrorAction Stop -Verbose:$false
+                    Import-Module -Name "C:\Temp\$ModuleName" -Min $MinimumVersion -Force -ErrorAction Stop -Verbose:$false
                     $currentVersion = (Get-module -Name $ModuleName).Version
                     Remove-Module -Name $ModuleName -Force -ErrorAction Stop -Verbose:$false
                 } catch {}
@@ -145,7 +148,7 @@ configuration InstallDscDashboard
                 $MinimumVersion = '2.0.1'
 
                 try {
-                    Import-Module -Name "C:\Temp\$ModuleName" -MinimumVersion $MinimumVersion -Force -ErrorAction Stop -Verbose:$false
+                    Import-Module -Name "C:\Temp\$ModuleName" -Min $MinimumVersion -Force -ErrorAction Stop -Verbose:$false
                     Remove-Module -Name $ModuleName -Force -ErrorAction Stop -Verbose:$false
                     return $true
                 } catch {
@@ -155,7 +158,8 @@ configuration InstallDscDashboard
             }
         }
         
-        $ModulePath = ($env:PSModulePath -split ';') | ? { $_ -like "$env:ProgramFiles\*" } | Select-Object -First 1
+        $ModulePath = ($env:PSModulePath -split ';') |
+            Where-Object { $_ -like "$env:ProgramFiles\*" } | Select-Object -First 1
 
         File InstallUniversalDashboard
         {
@@ -164,17 +168,16 @@ configuration InstallDscDashboard
             Recurse = $true # Ensure presence of subdirectories, too
             SourcePath = "C:\Temp\UniversalDashboard.Community"
             DestinationPath = "$ModulePath\UniversalDashboard.Community"
-            DependsOn = "[Script]InstallUniversalDashboard"
+            DependsOn = "[Script]DownloadUniversalDashboard"
         }
         
-
     } # Node
-} # configuration
+} # Configuration
 ```
 
 Save the configuration file as InstallDscDashboard.ps1
 
-Next execute these steps to load (dot source), compile and apply the configuration on the computer:
+Next execute these steps to load *(dot source)*, compile and apply the configuration on the local computer:
 
 ```powershell
 . .\InstallDscDashboard.ps1
