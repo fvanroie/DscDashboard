@@ -26,9 +26,11 @@ It can be used to quickly test the DSC Dashboard in your environment. The follow
 
 To build `dscdashboard` from source:
 
+```bash
     git clone https://github.com/fvanroie/DscDashboard.git
     cd DscDashboard
     sudo docker build -t dscdashboard -f Docker/Dockerfile .
+```
 
 If the build succeeded, you will see:
 
@@ -39,15 +41,18 @@ If the build succeeded, you will see:
 
 Test the image, binding associated ports and SQL Server connection string:
 
-    docker run -p 80:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+```bash
+    docker run -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+```
+Press Ctrl-C to stop the website and exit the container when done testing.
 
-Press Ctrl-C to stop the website and exit the container.
-
-## Run
+### Run
 
 To run the container in the background:
 
-    docker run -d -p 80:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+```bash
+    docker run -d -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+```
 
 Change the `<hostname>`, `<user>` and `<password>` in the `DSC_SQL` argument to the appropriate values to
 connect to the DSC database on the SQL Server. This should be a temporary *read-only* account on the DSC database
@@ -55,11 +60,13 @@ for testing purposes.
 
 You can also set the `DSC_SQL` environment variable by editing the Dockerfile and rebuilding the image.
 
-## Debug
+### Debug
 
 You can troubleshoot or debug the containter with the following command:
 
-    docker run -it -p 80:80 --name dsc dscdashboard -c pwsh -noexit -interactive
+```bash
+    docker run -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
+```
 
 This will give you an interactive PowerShell prompt. Type `exit` to stop the container session.
 
@@ -67,7 +74,7 @@ This will give you an interactive PowerShell prompt. Type `exit` to stop the con
 
 Service     | Port | Usage
 ------------|------|------
-DscDashboard|   80 | Use `dscdashboard run` and visit `http://localhost` in your browser.
+DscDashboard|   80 | Use `dscdashboard run` and visit `http://localhost:8080` in your browser.
 
 
 ### Volumes
