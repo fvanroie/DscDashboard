@@ -27,24 +27,28 @@ Configuration InstallDscDashboard
         <#
             ---- Download and install  dotnet core hosting bundle
         #>
+        $dotnetInstaller = "dotnet-hosting-2.1.4-win.exe"
+        # Discover your product name and id after installing it once with:
+        #     Get-WmiObject Win32_product | Format-Table IdentifyingNumber,Name
+        $dotnetProductName = ".NET Core 2.1 Runtime & Hosting Bundle for Windows (v2.1.4)"
+        $dotnetProductId = "CBC46E08-1043-4508-831E-1D5F07FD33AB"
+
         xRemoteFile DownloadDotNetCoreHostingBundle
         {
-            Uri = "https://download.microsoft.com/download/A/7/8/A78F1D25-8D5C-4411-B544-C7D527296D5E/dotnet-hosting-2.1.4-win.exe"
-            DestinationPath = "C:\temp\dotnet-hosting-2.1.4-win.exe"
+            Uri = "https://download.microsoft.com/download/A/7/8/A78F1D25-8D5C-4411-B544-C7D527296D5E/$dotnetInstaller"
+            DestinationPath = "C:\temp\$dotnetHostingInstaller"
             MatchSource = $false
             #Proxy = "optional, your corporate proxy here"
             #ProxyCredential = "optional, your corporate proxy credential here"
         }
 
-        # Discover your product name and id after installing it once with:
-        #     Get-WmiObject Win32_product | Format-Table IdentifyingNumber,Name
         xPackage InstallDotNetCoreHostingBundle
         {
-            Name = ".NET Core 2.1 Runtime & Hosting Bundle for Windows (v2.1.4)"
-            ProductId = "CBC46E08-1043-4508-831E-1D5F07FD33AB"
+            Name = $dotnetProductName
+            ProductId = $dotnetProductId
 
             Arguments = "/quiet /norestart /log C:\temp\dotnet-hosting_install.log"
-            Path = "C:\temp\dotnet-hosting-2.1.4-win.exe"
+            Path = "C:\temp\$dotnetInstaller"
 
             DependsOn = @(
                 "[WindowsFeature]InstallIIS",
@@ -55,10 +59,10 @@ Configuration InstallDscDashboard
         Script PutDotNetOnPath
         {
             SetScript = {
-                $env:Path = $env:Path + "C:\Program Files\dotnet\;"
+                $env:Path = $env:Path + $env:ProgramFiles + "\dotnet\;"
             }
             TestScript = {
-                return ($env:path -split ';') -contains 'C:\Program Files\dotnet\'
+                return ($env:path -split ';') -contains ($env:ProgramFiles + "\dotnet\")
             }
             GetScript = {
                 return @{
@@ -75,9 +79,9 @@ Configuration InstallDscDashboard
         #>
         xRemoteFile DownloadDscDashboard
         {
-            Uri = "https://github.com/fvanroie/DscDashboard/archive/master.zip"
+            Uri = "https://github.com/fvanroie/DscDashboard/archive/master.zip"# + '?' + [Guid]::NewGuid()
             DestinationPath = "C:\temp\DscDashboard.zip"
-            MatchSource = $false
+            MatchSource = $true
         }
 
         Archive ExtractDscDashboard
@@ -85,13 +89,16 @@ Configuration InstallDscDashboard
             Path = "C:\temp\DscDashboard.zip"
             Destination = "C:\temp\"
             Ensure = "Present"
+            Checksum = "SHA-1"
+            Validate = $true
+            Force = $true
             DependsOn = "[xRemoteFile]DownloadDscDashboard"
         }
 
         $ModulePath = ($env:PSModulePath -split ';') |
             Where-Object { $_ -like "$env:ProgramFiles\*" } | Select-Object -First 1
 
-        File InstallDscDashboard
+        File InstallDscDashboardModule
         {
             Ensure = "Present"  # You can also set Ensure to "Absent"
             Type = "Directory" # Default is "File".
@@ -162,6 +169,40 @@ Configuration InstallDscDashboard
         <#
             ---- Copy all files to webfolder
         #>
+        File DeployWebfolderBase
+        {
+            Ensure = "Present"  # You can also set Ensure to "Absent"
+            Type = "Directory" # Default is "File".
+            Recurse = $true # Ensure presence of subdirectories, too
+            SourcePath = (Get-Module -ListAvailable UniversalDashboard.Community ).ModuleBase
+            DestinationPath = "C:\inetpub\DscDashboard"
+            DependsOn = "[File]InstallUniversalDashboard"
+        }
+
+        File DeployWebFolderPages
+        {
+            Ensure = "Present"  # You can also set Ensure to "Absent"
+            Type = "Directory" # Default is "File".
+            Recurse = $true # Ensure presence of subdirectories, too
+            SourcePath = "C:\Temp\DscDashboard-master\DscDashboard\Pages"
+            DestinationPath = "C:\inetpub\DscDashboard\Pages"
+            DependsOn = @(
+                "[Archive]ExtractDscDashboard",
+                "[File]DeployWebfolderBase"
+            )
+        }
+
+        File DeployWebFolderDachboard
+        {
+            Ensure = "Present"  # You can also set Ensure to "Absent"
+            Type = "File" # Default is "File".
+            SourcePath = "C:\Temp\DscDashboard-master\DscDashboard\dashboard.ps1"
+            DestinationPath = "C:\inetpub\DscDashboard\"
+            DependsOn = @(
+                "[Archive]ExtractDscDashboard",
+                "[File]DeployWebfolderBase"
+            )
+        }
 
         <#
             ---- Create IIS webapp
