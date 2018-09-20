@@ -33,9 +33,9 @@ LABEL maintainer="NetwiZe.be" \
 # Suppress Dialog warning from msodbcsql17 and mssql-tools packages because we are running unattended
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install msodbcsql17 mssql-tools unixodbc
+# Install msodbcsql17 unixodbc (optionally add mssql-tools if needed)
 RUN apt-get update \
-    && ACCEPT_EULA=Y apt-get install msodbcsql17 mssql-tools unixodbc -y --no-install-recommends \
+    && ACCEPT_EULA=Y apt-get install msodbcsql17 unixodbc -y --no-install-recommends \
     && apt-get dist-upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

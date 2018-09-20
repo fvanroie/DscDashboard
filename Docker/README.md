@@ -3,28 +3,30 @@
 ## Description
 
 This [Docker](http://docker.com) container hosts the [DscDashboard](https://github.com/fvanroie/DscDashboard) module and all of its dependencies.
-It can be used to quickly test the DSC Dashboard in your *test* environment. The following packages are installed:
+It can be used to quickly test the DSC Dashboard in your *test* environment. The following packages are included in the image:
 - *Ubuntu 18.04 LTS*
 - [PowerShell 6.1.0](https://hub.docker.com/r/microsoft/powershell/) base image
     - [DscDashboard](https://github.com/fvanroie/DscDashboard) module
-    - [UniversalDashboard.Community](http://poshud.com) module
-- [ODBC Driver for SQL Server](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/system-requirements)
+    - [UniversalDashboard.Community](http://poshud.com) module <sup>*</sup>
+- [ODBC Driver for SQL Server](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/system-requirements) <sup>*</sup>
+
+<sup>*</sup> by building the image you accept the End-User License agreement of these packages
 
 #### Disclaimer
 
 > *This container is provided as a proof-of-concept for *testing purposes* only.
 > If you want to run the DSC dashboard in a production environment consider using
-> [IIS with Domain authentication and https binding](#).*
+> [IIS with Domain authentication and https binding](#../docs/Installation_IIS.md).*
 >
-> *The information in the DSC database should be regarded as extremely sensitive because it contains
-> the configurations of your environment!*
+> *The information in the DSC database should be regarded as **extremely sensitive**
+> because it contains the configurations of your environment!*
 
 
 ## Usage
 
 ### Installation
 
-To build `dscdashboard` from source:
+To build the `dscdashboard` image from source:
 
 ```bash
 git clone https://github.com/fvanroie/DscDashboard.git
@@ -86,7 +88,7 @@ This will give you an interactive PowerShell prompt. Type `exit` to stop the con
 
 Service     | Port | Usage
 ------------|------|------
-DscDashboard|   80 | Use `dscdashboard run` and visit `http://localhost:8080` in your browser.
+DscDashboard|   80 | Use `dscdashboard run` and visit `http://ipaddress[:port]` in your browser.
 
 
 ### Volumes
