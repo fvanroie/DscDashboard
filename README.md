@@ -38,14 +38,9 @@ You need to have this module installed on the server hosting the dashboard. You 
 [Full edition](https://www.powershellgallery.com/packages/UniversalDashboard/) depending on your usage and license requirements.
 
 
-## Synopsis
-
-A PowerShell Module to
-
-
 ## How to use
 
-Open a browser on the server and browse to http://localhost to test the dashboard:
+Open a browser on the server and browse to http://ipaddress[:port] to test the dashboard:
 
 ![Nodes](docs/images/nodes.png)
 
