@@ -2,6 +2,7 @@ Configuration InstallDscDashboard
 {
     Import-DscResource -ModuleName PSDesiredStateConfiguration
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
+    Import-DscResource -ModuleName xWebAdministration
 
     Node "localhost" {
         <#
@@ -192,7 +193,7 @@ Configuration InstallDscDashboard
             )
         }
 
-        File DeployWebFolderDachboard
+        File DeployWebFolderDashboard
         {
             Ensure = "Present"  # You can also set Ensure to "Absent"
             Type = "File" # Default is "File".
@@ -208,7 +209,13 @@ Configuration InstallDscDashboard
             ---- Create IIS webapp
         #>
 
-
+        xWebSite DscDashboard
+        {
+            Name = "DscDashboard"
+            PhysicalPath = "C:\inetpub\DscDashboard\"
+            State = "Started"
+            DependsOn = "[File]DeployWebFolderDashboard"
+        }
 
 <#
             DependsOn = @("[Archive]InstallUniversalDashboard",
