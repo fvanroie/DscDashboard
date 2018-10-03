@@ -17,7 +17,7 @@ A Dockerfile is also available to quickly test the DscDashboard functionality.
 
 ### DSC Pull Service with
 - Windows Server 2016 Core Semi-Annual Channel release 1803   *or*
-- Windows Server 2019 Insider Preview
+- Windows Server 2019
 - SQL Server backend
 
 You need to have a DSC Pull Service from WMF 5.1 that is
@@ -28,7 +28,7 @@ __Note:__
 > SQL Server support will not be added to previous versions of WMF 5.1 (or earlier) and
 > will only be available on Windows Server versions **greater than or equal to 17090**.
 
-This means you need to have at least Windows 2016 SAC 1803 or Windows 2019 Insider Preview.
+This means you need to have at least Windows 2016 SAC 1803 or Windows 2019.
 
 ### Universal Dashboard Module
 
