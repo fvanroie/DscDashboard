@@ -31,7 +31,7 @@ To build the `dscdashboard` image from source:
 ```bash
 git clone https://github.com/fvanroie/DscDashboard.git
 cd DscDashboard
-sudo docker build -t dscdashboard .
+docker build -t dscdashboard .
 ```
 
 If the build succeeded, you will see:
@@ -60,7 +60,7 @@ After a little while you should see this message:
     Now listening on: http://0.0.0.0:80
     Application started. Press Ctrl+C to shut down.
 
-Browse to the URL http://<ipaddress>:8080 of the DSC Dashboard. Press Ctrl-C to stop the website and exit the container when done testing.
+Browse to the URL `http://ipaddress:8080` of the DSC Dashboard. Press Ctrl-C to stop the website and exit the container when done testing.
 
 ![Dashboard](../docs/images/dashboard.png)
 
@@ -78,7 +78,7 @@ docker run -d -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<passwor
 You can troubleshoot or debug the containter with the following command:
 
 ```bash
-docker run --rm -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
+docker run --rm -it -p 8080:80 --name dsc dscdashboard -c pwsh
 ```
 
 This will give you an interactive PowerShell prompt. Type `exit` to stop the container session.
