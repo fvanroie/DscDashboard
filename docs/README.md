@@ -12,7 +12,7 @@ DSC Dashboard and connect to a SQL Server hosting the DSC database.
     - [DSC Configuration](Installation_IIS.md#dsc-configuration)
     - [Manual setup](Installation_IIS.md#manual-steps)
 
-2. [Docker container](../Docker)
+2. [Docker container](Docker.md)
 
 ## Configuration
 

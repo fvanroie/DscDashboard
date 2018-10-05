@@ -30,7 +30,7 @@ To build the `dscdashboard` image from source:
 
 ```bash
 git clone https://github.com/fvanroie/DscDashboard.git
-cd DscDashboard/Docker
+cd DscDashboard
 sudo docker build -t dscdashboard .
 ```
 
