@@ -41,7 +41,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy local PowerShell DscDashboard Module into the image
-COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
+#COPY DscDashboard /usr/local/share/powershell/Modules/DscDashboard
 
 # Set Environment Variables
 ENV DSC_SQL "Server={0}; UID={1}; PWD={2}"
@@ -57,6 +57,9 @@ RUN echo "[DscDashboard] \
     && echo "Download UniversalDashboard.Community from the PowerShell Gallery and check the 2 modules can be found" \
     && pwsh -c ' \
         $ProgressPreference = "SilentlyContinue"; \
+        \
+        Find-Module "DscDashboard" -Min 0.0.1 | \
+        Save-Module -Path "/usr/local/share/powershell/Modules/" -AcceptLicense -Verbose; \
         \
         Find-Module "UniversalDashboard.Community" -Min 2.0.1 | \
         Save-Module -Path "/usr/local/share/powershell/Modules/" -AcceptLicense -Verbose; \
