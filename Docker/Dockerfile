@@ -20,15 +20,8 @@ LABEL maintainer="NetwiZe.be" \
       org.label-schema.name="dscdashboard" \
       org.label-schema.vendor="NetwiZe.be" \
       org.label-schema.version=${VERSION} \
-      org.label-schema.docker.cmd.devel="docker run -it ${IMAGE_NAME} pwsh" \
-      org.label-schema.docker.cmd="docker run ${IMAGE_NAME}"
-
-#      org.label-schema.vcs-ref=${VCS_REF} \
-#      org.label-schema.schema-version="1.0" \
-#      org.label-schema.usage="https://github.com/PowerShell/PowerShell/tree/master/docker#run-the-docker-image-you-built" \
-#      org.label-schema.url="https://github.com/PowerShell/PowerShell/blob/master/docker/README.md" \
-#      org.label-schema.docker.cmd.test="docker run ${IMAGE_NAME} pwsh" \
-#      org.label-schema.docker.cmd.help="docker run ${IMAGE_NAME} pwsh --help"
+      org.label-schema.docker.cmd.devel="docker run --rm -it -p 80:80 ${IMAGE_NAME} -c pwsh" \
+      org.label-schema.docker.cmd="docker run -p 80:80 ${IMAGE_NAME}"
 
 # Set ConnectionString Environment Variable, needed for the ODBC connection to SQL Server!
 ENV DSC_SQL "Server={0}; UID={1}; PWD={2}"
@@ -39,7 +32,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # a. Install msodbcsql17 and unixodbc (optionally add mssql-tools if it is needed)
 # b. Create ODBC DSN file
 # c. Create the Module path
-# d. Download the PowerShell modules from the ProwerShell Gallery
+# d. Download 2 modules from the PowerShell Gallery and check if both can be found.
 # e. Create the dashboard.ps1 launcher in root
 RUN apt-get update \
     && ACCEPT_EULA=Y apt-get install msodbcsql17 unixodbc -y --no-install-recommends \
@@ -56,8 +49,6 @@ RUN apt-get update \
     \
     && mkdir -p "/usr/local/share/powershell/Modules/" \
     \
-    && echo "Download 2 modules from the PowerShell Gallery and check if both can be found." \
-    \
     && pwsh -c ' \
         $ProgressPreference = "SilentlyContinue"; \
         \
@@ -73,6 +64,7 @@ RUN apt-get update \
         $dashboard = (Get-Module -ListAvailable "DscDashboard").Path | \
             Split-Path -Parent | \
             Join-Path -ChildPath "dashboard.ps1"; \
+        \
         Set-Content -Path "/dashboard.ps1" -Value "& $dashboard"; \
     '
 
