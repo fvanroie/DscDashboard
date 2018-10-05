@@ -30,8 +30,8 @@ To build the `dscdashboard` image from source:
 
 ```bash
 git clone https://github.com/fvanroie/DscDashboard.git
-cd DscDashboard
-sudo docker build -t dscdashboard -f Docker/Dockerfile .
+cd DscDashboard/Docker
+sudo docker build -t dscdashboard .
 ```
 
 If the build succeeded, you will see:
@@ -45,7 +45,7 @@ If the build succeeded, you will see:
 Test the newly built image, bind associated public port and provide a SQL Server connection string:
 
 ```bash
-docker run -rm -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
+docker run --rm -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<password>' --name dsc dscdashboard
 ```
 
 Change the `<hostname>`, `<user>` and `<password>` in the `DSC_SQL` argument to the appropriate values to
@@ -78,7 +78,7 @@ docker run -d -p 8080:80 -e DSC_SQL='SERVER=<hostname>; Uid=<user>; Pwd=<passwor
 You can troubleshoot or debug the containter with the following command:
 
 ```bash
-docker run -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
+docker run --rm -it -p 8080:80 --name dsc dscdashboard -c pwsh -noexit -interactive
 ```
 
 This will give you an interactive PowerShell prompt. Type `exit` to stop the container session.
