@@ -87,4 +87,4 @@ Start-UDDashboard -Endpoint $RefreshAllNodes -Dashboard (
 
     New-UDDashboard -Theme $Theme -Title "DSC Dashboard" -Pages $Pages -EndpointInitialization $Initialization -Footer $Footer -NavbarLinks $NavBarLinks # -CyclePagesInterval 150 -CyclePages
 
-) -AutoReload -Port 4242 # -Wait is needed for hosting
+) -AutoReload -Wait #-Port 4242 # -Wait is needed for hosting
