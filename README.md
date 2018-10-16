@@ -17,7 +17,7 @@ A Dockerfile is also available to quickly test the DscDashboard functionality.
 
 ### DSC Pull Service with
 - Windows Server 2016 Core Semi-Annual Channel release 1803   *or*
-- Windows Server 2019
+- [Windows Server 2019](https://www.microsoft.com/en-us/cloud-platform/windows-server-trial)
 - SQL Server backend
 
 You need to have a DSC Pull Service from WMF 5.1 that is
