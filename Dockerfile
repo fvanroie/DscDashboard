@@ -52,7 +52,7 @@ RUN apt-get update \
     && pwsh -c ' \
         $ProgressPreference = "SilentlyContinue"; \
         \
-        Find-Module "DscDashboard" -Min 0.0.1 | \
+        Find-Module "DscDashboard" -Min 0.0.2 | \
              Save-Module -Path "/usr/local/share/powershell/Modules/" -Verbose; \
         \
         Find-Module "UniversalDashboard.Community" -Min 2.0.1 | \
