@@ -123,6 +123,7 @@ Function Get-DscDashboardNodes
             ResourcesInDesiredState    = $StatusData.ResourcesInDesiredState.Count
             ResourcesNotInDesiredState = $StatusData.ResourcesNotInDesiredState.Count
             Compliancy                 = $Compliancy
+            Mode                       = $StatusData.Mode
 
             # Additional Data Properties
             OS                         = $OSVersion

@@ -102,17 +102,27 @@ New-UDPage -Name "Home" -Icon home -Content {
                 #endregion
 
                 #region PowerShell Version
-                    New-UDChart -Title "PowerShell Version" -Type Doughnut -RefreshInterval 60 -Endpoint {
+                New-UDChart -Title "PowerShell Version" -Type Doughnut -RefreshInterval 60 -Endpoint {
 
-                        $colors = @('#CCE0F4',"#D6B77C","#9FC9D4"   ,"#CCCCCC","#32389F", '#BF9BCF','#0066CC','#F5E44C','#B2F2EC','#FDCCC6')
+                    $colors = @('#CCE0F4',"#D6B77C","#9FC9D4"   ,"#CCCCCC","#32389F", '#BF9BCF','#0066CC','#F5E44C','#B2F2EC','#FDCCC6')
 
-                        $result = $Cache:AllNodes | Select-Object -Property PSVersion | Group-Object -Property PSVersion | Select-Object count,name | Sort-Object name
-                        $result | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -DatasetLabel "Node Compliancy" -BackgroundColor $colors
+                    $result = $Cache:AllNodes | Select-Object -Property PSVersion | Group-Object -Property PSVersion | Select-Object count,name | Sort-Object name
+                    $result | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -DatasetLabel "Node Compliancy" -BackgroundColor $colors
 
-                    } -Options $legendOptions #-Links $nodesLink
+                } -Options $legendOptions #-Links $nodesLink
                 #endregion
 
-                New-UDCard -Title "LCM Refresh Mode"
+                #region LCM Refresh Mode
+                New-UDChart -Title "LCM Refresh Mode" -Type Doughnut -RefreshInterval 60 -Endpoint {
+
+                    $colors = @('green','red')
+
+                    $result = $Cache:AllNodes | Select-Object -Property Mode | Group-Object -Property Mode | Select-Object count,name | Sort-Object name
+
+                    $result | Out-UDChartData -DataProperty "Count" -LabelProperty "Name" -DatasetLabel "Refresh Mode" -BackgroundColor $colors
+
+                } -Options $legendOptions #-Links $nodesLink
+            #endregion
 
             }
 

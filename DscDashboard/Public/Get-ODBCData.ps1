@@ -72,8 +72,9 @@ Function Get-ODBCData
     } # if
 
     $ds = New-Object system.Data.DataSet
-    (New-Object system.Data.odbc.odbcDataAdapter($cmd)).fill($ds) | Out-Null
-    $conn.close()
+    $da = New-Object system.Data.odbc.odbcDataAdapter($cmd)
+    $da.fill($ds) | Out-Null
 
+    $conn.close()
     Return $ds.Tables[0]
 }
