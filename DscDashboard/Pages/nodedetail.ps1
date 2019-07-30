@@ -7,8 +7,9 @@ Param(
 $session:AgentID = $agentid
 
 # Back Button
-New-UDButton -Text (New-UDLink -Url "/Nodes" -Text "Back" -FontColor white) -Icon arrow_left
-$link = New-UDLink -Url "/Nodes" -Text "Back" -FontColor blue
+New-UDButton -Text "Back" -Icon arrow_left -OnClick {
+        Invoke-UDRedirect -Url '/Nodes'
+} 
 
 $data = Get-DscDashboardNodeDetail -AgentId $agentId
 $Hostname = $data.NodeName
@@ -54,7 +55,7 @@ New-DscDashboardCustomHeader -Text $Hostname -icon 'desktop'
         New-UDCollapsibleItem -Id "Resources" -Title "Resources" -Icon cubes -Content {
                 $properties = "ModuleName","Version","ResourceId","DesiredState","StartDate","Duration","RebootReq","DependsOn"
 
-                $ConfigNames = Get-DscDashboardNodeResources -AgentId $session:AgentID  | select -ExpandProperty configurationname -Unique
+                $ConfigNames = Get-DscDashboardNodeResources -AgentId $session:AgentID  | Select-Object -ExpandProperty configurationname -Unique
 
                 Foreach ($config in $Confignames) {
                 $a = New-UDElement -Tag "DIV" -Attributes @{ className = "CARD_CONTENT" } -Content {
