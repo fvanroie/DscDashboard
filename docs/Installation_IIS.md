@@ -77,5 +77,5 @@ Copy:
     to C:\initpub\wwwroot\
 - The file dashboard.ps1 file from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
     to C:\initpub\wwwroot\
-- The file Pages folder from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
+- The Pages folder from C:\Program Files\WindowsPowershell\Modules\DscDashboard\
     to C:\initpub\wwwroot\
