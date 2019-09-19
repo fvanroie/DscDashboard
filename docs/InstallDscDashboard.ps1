@@ -37,7 +37,7 @@ Configuration InstallDscDashboard
         xRemoteFile DownloadDotNetCoreHostingBundle
         {
             Uri = "https://download.microsoft.com/download/A/7/8/A78F1D25-8D5C-4411-B544-C7D527296D5E/$dotnetInstaller"
-            DestinationPath = "C:\temp\$dotnetHostingInstaller"
+            DestinationPath = "C:\temp\$dotnetInstaller"
             MatchSource = $false
             #Proxy = "optional, your corporate proxy here"
             #ProxyCredential = "optional, your corporate proxy credential here"
