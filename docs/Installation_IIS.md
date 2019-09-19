@@ -60,7 +60,7 @@ PS> Get-Module -Name "*Dashboard*" -ListAvailable
 
 ModuleType Version    Name                                ExportedCommands
 ---------- -------    ----                                ----------------
-Script     0.0.1      DscDashboard                        {New-DscDashboardCustomHeader...}
+Script     0.0.2      DscDashboard                        {New-DscDashboardCustomHeader...}
 Script     2.0.1      UniversalDashboard.Community        {New-UDChart, New-UDDashboard...}
 ```
 
