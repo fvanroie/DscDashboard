@@ -45,6 +45,11 @@ Open a browser on the server and browse to http://ipaddress[:port] to test the d
 ![Nodes](docs/images/nodes.png)
 
 
+## [Buy me a coffee](https://www.buymeacoffee.com/aktdCofU)
+
+[![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://www.buymeacoffee.com/aktdCofU)
+
+
 ## Notes
 
 ```yaml
